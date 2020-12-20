@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Love calculator App</title>
+  <style> 
+   body {
+    font-size: 120%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-image: linear-gradient(to left, #ffaedd, #ffa0c9, #ff94b2, #ff8899, #ff7f7f);
+   }
+   h1{
+     color: white;
+     font-size: 400%;
+     font-weight: bolder;
+   }
+   h2{
+     color: white;
+     font-size: 400%;
+     font-style: bold;
+   }
+   h3{
+     color: white;
+     font-size: 180%;
+     font-style: oblique;
+   }
+   p{
+     color: white;
+     font-size: 180%;
+     font-style: italic;
+   }
+  </style>
+</head>
+
+<body>
+  <header>
+  </header>
+  <section>
+  </section>
+  <script type="text/javascript">
+    var header = document.querySelector('header');
+    var section = document.querySelector('section');
+
+    var firstName = prompt("Перше ім'я:", ''); //введення імені для перевірки сумісності
+    var secondName = prompt("Друге ім'я", '');
+
+    const data = null;
+
+    const xhr = new XMLHttpRequest(); //створення XMLHttpRequest
+    xhr.withCredentials = true;
+
+    xhr.responseType = 'json';  //тип документу який буде повернений на запит
+
+    xhr.addEventListener("readystatechange", function () {
+     if (this.readyState === this.DONE) {
+      var result = this.response;     //отримання результату запиту
+      var fname = result.fname;     //отримання імені 1 з json файлу
+      var percentage = result.percentage; //отримання проценту сумісності з json файлу
+      var result = result.result; //отримання результату з json файлу
+      var sname = result.sname;   //отримання імені 2 з json файлу
+
+      var myArticle = document.createElement('article'); //заповнюємо веб сторінку даними
+      var myH1 = document.createElement('h1');
+      myH1.textContent= "Love calculator";
+      myArticle.appendChild(myH1);
+      section.appendChild(myArticle);
+      var myArticle = document.createElement('article');
+      var myPara1 = document.createElement('h2');
+      var myPara2 = document.createElement('h3');
+      var myPara3 = document.createElement('p');
+
+
+      myPara1.textContent = percentage+"%";  //виводимо дані
+      myPara2.textContent = firstName + " + " + secondName + " = love❤️";
+      myPara3.textContent = result;
+
+      myArticle.appendChild(myPara1); //додаємо все до документу
+      myArticle.appendChild(myPara2);
+      myArticle.appendChild(myPara3);
+      section.appendChild(myArticle);
+
+     }
+    });
+
+    xhr.open("GET", "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + firstName+ "&sname=" + secondName); //формування запиту до api
+    xhr.setRequestHeader("x-rapidapi-key", "c2ecef0f67msh55651dd31054989p10e0d4jsn9073b2218f3c"); //api ключ
+    xhr.setRequestHeader("x-rapidapi-host", "love-calculator.p.rapidapi.com"); //api хост
+    xhr.send(data); //відправка даних
+
+  </script>
+</body>
+
+</html>
